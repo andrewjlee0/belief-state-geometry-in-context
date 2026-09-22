@@ -2,9 +2,9 @@
 
 Daniel Balcells\*, Andrew Jun Lee\*, Chirag Rastogi\*, Paul M. Riechers, Adam Shai, and Xavier Poncini†
 
-\* These authors contributed equally and are listed alphabetically.
+\*These authors contributed equally and are listed alphabetically.
 
-† Correspondence to xponcini@gmail.com.
+†Correspondence to xponcini@gmail.com.
 
 This repository contains the code, the figures, and the analysis notebooks behind the paper, which is available on arXiv as [arXiv:2609.17376](https://arxiv.org/abs/2609.17376).
 
