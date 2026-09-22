@@ -22,7 +22,7 @@ export HF_TOKEN=hf_...          # required for the gated Llama and Gemma checkpo
 
 Every script is run from the repository root, takes `--model` (a Hugging Face id), `--output_dir`, and `--device`, and names its output files with a short model key. The six keys are `qwen35_9b`, `qwen35_4b`, `llama_31_8b`, `llama_32_3b`, `gemma_4_e4b`, and `gemma_4_e2b`.
 
-## Reproducing the paper
+## Replicating Results
 
 All figures of the paper are saved in `figures/`.
 
