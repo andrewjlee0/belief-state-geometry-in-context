@@ -14,6 +14,8 @@ Large language models (LLMs) trained on next-token prediction exhibit remarkable
 
 ![Figure 1](figures/figure1.png)
 
+**Figure 1: HMMs induce belief state geometry in LLMs.** (a) An HMM (left) emits tokens by transitioning between hidden states (S1, S2, S3). Conditioning on this sequence in-context, an LLM (middle) predicts the next token. Computational mechanics suggests that optimal prediction requires tracking the belief state, the posterior distribution over the HMM's hidden states, whose reachable set traces a characteristic geometry in the activation space (right). (b) Results preview for one HMM (Wing). The LLM predicts near-optimally in-context (left), linear probes recover the belief geometry far beyond controls (middle), and intervening on the belief subspace influences the predictions (right).
+
 ## Setup
 
 ```bash
