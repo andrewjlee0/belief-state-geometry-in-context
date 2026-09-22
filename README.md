@@ -58,7 +58,7 @@ The repository has six directories.
 - `notebooks/`: create figures
   - `01_prediction.ipynb`, `02_probes.ipynb`, `03_interventions.ipynb`, `04_tuned_lens.ipynb`
 - `figures/`
-  - Location of figures. Figures are pre-generated and saved.
+  - Location of figures from `notebooks/`. Figures are pre-generated and saved.
 - `results/`
   - Location of saved outputs from `experiments/`. Not stored in repository. Email to request, if you would not like to generate them.
 
