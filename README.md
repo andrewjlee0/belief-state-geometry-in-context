@@ -45,14 +45,27 @@ Note that a single model needs roughly one to two GPU-hours per probe script and
 
 ## Directories
 
-The repository has six directories:
+The repository has six directories.
 
-- `src/` holds the shared machinery. It defines the HMM families and their belief computations, the linear probes, the KL divergence, and the model loading and activation extraction that every experiment uses.
-- `configs/` defines the 40 HMMs, four families with ten parametrizations each, and the representative parametrization of each family shown in the main text.
-- `experiments/` contains one script per experiment, grouped by the section of the paper it belongs to: `prediction/`, `probes/`, `interventions/`, and `tuned_lens/`.
-- `scripts/` contains four runner scripts, one per section, that execute every experiment of that section for every model with the paper's settings.
-- `notebooks/` contains four notebooks, again one per section, that turn the results files into every figure and every number quoted in the paper.
-- `figures/` holds the figures of the paper and its appendices exactly as the notebooks wrote them.
+- `src/`, the shared machinery
+  - `hmm/definitions.py`: the transition matrices of the four HMM families and their order-1 and order-0 approximations
+  - `hmm/core.py`: stationary distributions, sequence sampling, belief states, next-token probabilities, and k-suffix beliefs
+  - `metrics/probes.py`: the least-squares probes with a bias term
+  - `metrics/kl.py`: the KL divergence
+  - `model_utils.py`: model loading, prompt formatting, position matching, activation extraction, and the full-vocabulary KL
+- `configs/`
+  - `hmm_configs.py`: the 40 HMMs (four families with ten parametrizations each) and the representative parametrization of each family
+- `experiments/`, one script per experiment, grouped by section of the paper
+  - `prediction/run_kl.py` (Section 4)
+  - `probes/run_belief_probes.py`, `probes/run_ntp_probes.py`, `probes/run_ksuffix_probes.py`, `probes/run_transfer_probes.py`, and `probes/run_early_context_probes.py` (Section 5)
+  - `interventions/run_belief_steering.py` (Section 6) and `interventions/run_prediction_interventions.py` (Section 7)
+  - `tuned_lens/run_tuned_lens.py` (Section 8)
+- `scripts/`, one runner per section, which executes every experiment of that section for every model with the paper's settings
+  - `run_prediction.sh`, `run_probes.sh`, `run_interventions.sh`, and `run_tuned_lens.sh`
+- `notebooks/`, one notebook per section, which turns the results files into the figures and the numbers quoted in the paper
+  - `01_prediction.ipynb`, `02_probes.ipynb`, `03_interventions.ipynb`, and `04_tuned_lens.ipynb`
+- `figures/`
+  - the figures of the paper and its appendices, exactly as the notebooks wrote them
 
 Every file in `src/`, `configs/`, `experiments/`, and `scripts/` opens with the same header, which states the section of the paper it belongs with, the claim as the paper states it, the experiment, the saved outputs, and how the code works.
 
