@@ -60,7 +60,7 @@ The repository has six directories.
 - `figures/`
   - Location of figures from `notebooks/`. Figures are included in repository.
 - `results/`
-  - Location of saved outputs from `experiments/`. Not stored in repository. Email to request, if you would not like to generate them.
+  - Location of saved outputs from `experiments/`. Empty in repository. Email to request data, if you would not like to generate them.
 
 ## Experiments
 
