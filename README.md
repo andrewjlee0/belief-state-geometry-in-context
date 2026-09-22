@@ -24,23 +24,18 @@ export HF_TOKEN=hf_...          # required for the gated Llama and Gemma checkpo
 
 All figures of the paper are saved in `figures/`.
 
-To reproduce a section of the paper, run a "runner" script in `scripts/` to execute every experiment of that section for all six models and save the results files to `results/`. Then, open and run the notebook of the same section to load those files and save the figures to `figures/`.
+To reproduce a section of the paper:
+- Run a "runner" script in `scripts/` to execute all experiments of the section you want, and save the results files to `results/`. 
+- Then, open and run the corresponding notebook to load those files, and generate and save the figures to `figures/`.
+
+All runner scripts and notebooks:
 
 1. **Section 4.** `bash scripts/run_prediction.sh`, then `notebooks/01_prediction.ipynb`.
 2. **Section 5.** `bash scripts/run_probes.sh`, then `notebooks/02_probes.ipynb`.
 3. **Sections 6 and 7.** `bash scripts/run_interventions.sh`, then `notebooks/03_interventions.ipynb`.
 4. **Section 8.** `bash scripts/run_tuned_lens.sh`, then `notebooks/04_tuned_lens.ipynb`.
 
-The runner scripts call the experiment scripts with the flags below. Edit the flags in the runner scripts to change the settings. Run a script with `--help` to see the defaults and allowed values.
-
-All scripts: `--model`, `--output_dir`, `--device`, `--families`, `--seq_len`, `--n_seeds`, `--chunk_size`, `--probe_start`, `--train_frac`
-
-- `run_belief_probes.py`: `--params`, `--skip_geometry`
-- `run_ksuffix_probes.py`: `--k_max`, `--params`, `--dists`, `--order0_source`, `--tag`, `--smoke`
-- `run_early_context_probes.py`: `--targets`, `--all_params`, `--early_len`, `--windows`, `--layers`, `--r2_csv`, `--no_late`, `--no_acts`, `--smoke`
-- `run_belief_steering.py`: `--donor`, `--params`, `--all_params`, `--k`, `--n_train`, `--split`, `--split_gap`, `--full_story`, `--frozen`, `--clean_baseline`, `--source`, `--steer_ref`, `--layers`, `--no_cache`, `--sdp_backend`, `--smoke`
-- `run_prediction_interventions.py`: `--params`, `--all_params`, `--k_values`, `--interventions`, `--layers`, `--dtype`, `--steer_ref`, `--sdp_backend`, `--attn_impl`, `--tag`, `--smoke`
-- `run_tuned_lens.py`: `--all_params`, `--param_index`, `--controls`, `--layers`, `--tl_epochs`, `--tl_lr`, `--tl_batch`, `--smoke`
+Edit the flags in the runner scripts to change the settings. Run a script with `--help` to see the defaults and allowed values.
 
 Note that a single model needs roughly one to two GPU-hours per probe script and several GPU-hours per intervention script on an 80 GB card.
 
@@ -48,7 +43,7 @@ Note that a single model needs roughly one to two GPU-hours per probe script and
 
 The repository has six directories.
 
-- `src/`, the shared machinery
+- `src/`: shared functions
   - `hmm/definitions.py`: the transition matrices of the four HMM families and their order-1 and order-0 approximations
   - `hmm/core.py`: stationary distributions, sequence sampling, belief states, next-token probabilities, and k-suffix beliefs
   - `metrics/probes.py`: the least-squares probes with a bias term
@@ -56,30 +51,25 @@ The repository has six directories.
   - `model_utils.py`: model loading, prompt formatting, position matching, activation extraction, and the full-vocabulary KL
 - `configs/`
   - `hmm_configs.py`: the 40 HMMs (four families with ten parametrizations each) and the representative parametrization of each family
-- `experiments/`, one script per experiment, grouped by section of the paper
-  - `prediction/run_kl.py` (Section 4)
-  - `probes/run_belief_probes.py`, `probes/run_ntp_probes.py`, `probes/run_ksuffix_probes.py`, `probes/run_transfer_probes.py`, and `probes/run_early_context_probes.py` (Section 5)
-  - `interventions/run_belief_steering.py` (Section 6) and `interventions/run_prediction_interventions.py` (Section 7)
-  - `tuned_lens/run_tuned_lens.py` (Section 8)
-- `scripts/`, one runner per section, which executes every experiment of that section for every model with the paper's settings
-  - `run_prediction.sh`, `run_probes.sh`, `run_interventions.sh`, and `run_tuned_lens.sh`
-- `notebooks/`, one notebook per section, which turns the results files into the figures and the numbers quoted in the paper
-  - `01_prediction.ipynb`, `02_probes.ipynb`, `03_interventions.ipynb`, and `04_tuned_lens.ipynb`
+- `experiments/`
+  - Explained below
+- `scripts/`
+  - Explained above
+- `notebooks/`: create figures
+  - `01_prediction.ipynb`, `02_probes.ipynb`, `03_interventions.ipynb`, `04_tuned_lens.ipynb`
 - `figures/`
-  - the figures of the paper and its appendices, exactly as the notebooks wrote them
-
-Every file in `src/`, `configs/`, `experiments/`, and `scripts/` opens with the same header, which states the section of the paper it belongs with, the claim as the paper states it, the experiment, the saved outputs, and how the code works.
+  - Location of figures
 
 ## Experiments
 
-All experiments share the following experimental design.
+All experiments share the following experimental design:
 
 1. Sample a 20,000-token sequence from the HMM and compute the exact Bayesian belief state at every position.
 2. Write the sequence as space-separated single letters and run the model once with the whole sequence as context.
 3. Keep the final 5,000-token window, where the model's predictions have converged.
 4. Where a probe is involved, fit OLS on a random 20 percent of that window and score the probe by R² on the other 80 percent, with the split seeded by the sequence seed.
 
-The following files in `experiments/` run the experiments. All files save the results in `results/`.
+We describe each experiment file below. All files save results in `results/`.
 
 ### Section 4. In-context prediction accuracy
 
