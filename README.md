@@ -31,15 +31,16 @@ To reproduce a section of the paper, run a "runner" script in `scripts/` to exec
 3. **Sections 6 and 7.** `bash scripts/run_interventions.sh`, then `notebooks/03_interventions.ipynb`.
 4. **Section 8.** `bash scripts/run_tuned_lens.sh`, then `notebooks/04_tuned_lens.ipynb`.
 
-The runner scripts pass the paper's settings to the experiment scripts as command-line flags, so a different setting only needs the flag changed in the runner (each runner also reads the environment variables `MODELS="..."` for the checkpoints and `RESULTS_DIR=...` for the output directory). Every experiment script accepts `--model` (a Hugging Face id), `--output_dir` (default `results`), `--device` (default `cuda`), `--families` (default all four), `--seq_len` (default 20000), `--n_seeds` (default 10), and `--chunk_size` (the forward-pass chunk, default 4096). All but the steering script accept `--probe_start` (default 15000), and all but the KL and steering scripts accept `--train_frac` (default 0.2). The remaining flags are specific to each script.
+The runner scripts call the experiment scripts with the flags below. Edit the flags in the runner scripts to change the settings. Run a script with `--help` to see the defaults and allowed values.
 
-- `run_kl.py`, `run_ntp_probes.py`, and `run_transfer_probes.py`: none beyond the shared flags.
-- `run_belief_probes.py`: `--params` (explicit parametrization labels) and `--skip_geometry` (the per-layer probes only, without the geometry pass).
-- `run_ksuffix_probes.py`: `--k_max` (default 20), `--params`, `--dists` (any of real, order-1, and order-0), `--order0_source` (hmm or uniform), `--tag` (a prefix for the output file name), and `--smoke`.
-- `run_early_context_probes.py`: `--targets` (Family=label entries, default the four main-text parametrizations) or `--all_params`, `--early_len` (default 4096), `--windows` (W:n_train entries, default 5000:1000), `--layers` (all or best), `--r2_csv` (the belief-probe results that define the best layers), `--no_late`, `--no_acts`, and `--smoke`. Its `--output_dir` has no default.
-- `run_belief_steering.py`: `--donor` (past_inconsistent, ntp_matched, or random_matched), `--params` or `--all_params`, `--k` (the intervened positions, default 5000), `--n_train` (default 1000), `--split` (random or block, with `--split_gap` for block), `--full_story`, `--frozen`, `--clean_baseline`, `--source` (belief, ntp, or log_ntp), `--steer_ref` (true or decoded), `--layers`, `--no_cache`, `--sdp_backend` (default or math), and `--smoke`. Its `--chunk_size` default is 2048.
-- `run_prediction_interventions.py`: `--params` or `--all_params`, `--k_values` (default 1 5 10), `--interventions` (patch, steer, or both), `--layers`, `--dtype` (float16, float32, or bfloat16), `--steer_ref`, `--sdp_backend`, `--attn_impl`, `--tag`, and `--smoke`.
-- `run_tuned_lens.py`: `--all_params` or `--param_index`, `--controls` (any of shuffle, random, order1, and cross), `--layers`, `--tl_epochs` (default 20), `--tl_lr` (default 1e-5), `--tl_batch` (default 512), and `--smoke`. Its `--chunk_size` default is 2048.
+All scripts: `--model`, `--output_dir`, `--device`, `--families`, `--seq_len`, `--n_seeds`, `--chunk_size`, `--probe_start`, `--train_frac`
+
+- `run_belief_probes.py`: `--params`, `--skip_geometry`
+- `run_ksuffix_probes.py`: `--k_max`, `--params`, `--dists`, `--order0_source`, `--tag`, `--smoke`
+- `run_early_context_probes.py`: `--targets`, `--all_params`, `--early_len`, `--windows`, `--layers`, `--r2_csv`, `--no_late`, `--no_acts`, `--smoke`
+- `run_belief_steering.py`: `--donor`, `--params`, `--all_params`, `--k`, `--n_train`, `--split`, `--split_gap`, `--full_story`, `--frozen`, `--clean_baseline`, `--source`, `--steer_ref`, `--layers`, `--no_cache`, `--sdp_backend`, `--smoke`
+- `run_prediction_interventions.py`: `--params`, `--all_params`, `--k_values`, `--interventions`, `--layers`, `--dtype`, `--steer_ref`, `--sdp_backend`, `--attn_impl`, `--tag`, `--smoke`
+- `run_tuned_lens.py`: `--all_params`, `--param_index`, `--controls`, `--layers`, `--tl_epochs`, `--tl_lr`, `--tl_batch`, `--smoke`
 
 Note that a single model needs roughly one to two GPU-hours per probe script and several GPU-hours per intervention script on an 80 GB card.
 
