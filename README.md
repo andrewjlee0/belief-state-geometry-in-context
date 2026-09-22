@@ -14,7 +14,7 @@ Large language models (LLMs) trained on next-token prediction exhibit remarkable
 
 ## Reproducing the paper
 
-Reproduction has two stages per section of the paper. A runner script in `scripts/` executes every experiment of that section for all six models with the paper's settings and writes the results files to `results/`. The notebook of the same section then reads those files and writes the figures to `figures/`.
+To reproduce a section of the paper, run a "runner" script in `scripts/` to execute every experiment of that section for all six models and save the results files to `results/`. Then, open and run the notebook of the same section to load those files and save the figures to `figures/`.
 
 1. **Section 4.** `bash scripts/run_prediction.sh`, then `notebooks/01_prediction.ipynb`.
 2. **Section 5.** `bash scripts/run_probes.sh`, then `notebooks/02_probes.ipynb`.
@@ -23,14 +23,11 @@ Reproduction has two stages per section of the paper. A runner script in `script
 
 A few things are worth knowing before starting.
 
-- **Where things go.** Each runner loops over the six checkpoints, and two environment variables redirect it: `MODELS="..."` selects the checkpoints and `RESULTS_DIR=...` the output directory, which the notebooks read through the `RESULTS_DIR` variable in their first code cell.
-- **Built-in details.** The belief-steering script runs once per model, donor, and family, and the runner merges the parts into one file per donor. The Gemma 4 checkpoints run with the reference attention kernel, and in float32 for the prediction interventions.
-- **Cost.** A single model needs roughly one to two GPU-hours per probe script and several GPU-hours per intervention script on an 80 GB card, with the 9B model at a 20,000-token context as the binding constraint.
-- **What reproduces exactly.** All sampling is seeded, so the probe results reproduce up to the floating-point differences of a half-precision forward pass on a different GPU type. The tuned lenses are the one exception, because their translators are trained with unseeded minibatch orders, and their KL values reproduce up to training noise.
+Note that a single model needs roughly one to two GPU-hours per probe script and several GPU-hours per intervention script on an 80 GB card, with the 9B model at a 20,000-token context as the binding constraint.
 
 ## Directories
 
-The repository has six top-level directories:
+The repository has six directories:
 
 - `src/` holds the shared machinery. It defines the HMM families and their belief computations, the linear probes, the KL divergence, and the model loading and activation extraction that every experiment uses.
 - `configs/` defines the 40 HMMs, four families with ten parametrizations each, and the representative parametrization of each family shown in the main text.
@@ -39,7 +36,7 @@ The repository has six top-level directories:
 - `notebooks/` contains four notebooks, again one per section, that turn the results files into every figure and every number quoted in the paper.
 - `figures/` holds the figures of the paper and its appendices exactly as the notebooks wrote them.
 
-Every file in `src/`, `configs/`, `experiments/`, and `scripts/` opens with the same header, which states the section of the paper it serves, the claim as the paper words it, the experiment, the saved outputs, and how the code works.
+Every file in `src/`, `configs/`, `experiments/`, and `scripts/` opens with the same header, which states the section of the paper it belongs with, the claim as the paper states it, the experiment, the saved outputs, and how the code works.
 
 ## Setup
 
@@ -141,7 +138,7 @@ Are the layers where beliefs are decodable also the layers from which the predic
 
 ## Figures
 
-The following notebooks generate figures from data saved in `results/`. We list the figures that each notebook generates.
+Below is a list of the figures that each notebook generates from the saved outputs in `results/`.
 
 - `01_prediction.ipynb`
   - Figure 2: `kl.pdf`
