@@ -17,7 +17,7 @@ Large language models (LLMs) trained on next-token prediction exhibit remarkable
 ```bash
 pip install torch transformers accelerate numpy pandas scikit-learn scipy numba tqdm matplotlib seaborn jupyter huggingface_hub sentencepiece protobuf
 export HF_HOME=/path/to/model/cache
-export HF_TOKEN=hf_...          # required for the gated Llama and Gemma checkpoints
+export HF_TOKEN=hf_...          # required for Llama
 ```
 
 ## Replicating Results
