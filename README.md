@@ -21,8 +21,6 @@ To reproduce a section of the paper, run a "runner" script in `scripts/` to exec
 3. **Sections 6 and 7.** `bash scripts/run_interventions.sh`, then `notebooks/03_interventions.ipynb`.
 4. **Section 8.** `bash scripts/run_tuned_lens.sh`, then `notebooks/04_tuned_lens.ipynb`.
 
-A few things are worth knowing before starting.
-
 Note that a single model needs roughly one to two GPU-hours per probe script and several GPU-hours per intervention script on an 80 GB card, with the 9B model at a 20,000-token context as the binding constraint.
 
 ## Directories
