@@ -1,0 +1,26 @@
+*.npz
+*.csv
+*.pyc
+*.npy
+*.log
+*venv
+/results
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+
+# Figures: only the paper figures under figures/ are tracked (notebooks/.ipynb ARE tracked)
+*.png
+*.pdf
+*.jpg
+*.jpeg
+*.svg
+*.gif
+*.html
+!/figures/
+!/figures/**
+
+# kept local only (not part of the public repo)
+plots/
+results_release
+results_release_repro
