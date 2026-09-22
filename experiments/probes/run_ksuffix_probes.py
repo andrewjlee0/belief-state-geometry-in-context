@@ -14,12 +14,9 @@ token distribution, Section 2.3). Each sequence is run through the model, and at
 late-window activations to the k-suffix belief state of the full HMM, eta(x_{t-k+1:t}), computed from that sequence's
 own tokens, for every k from 1 to 20. The result is an R² curve over k for every sequence, layer, and token source.
 
-Result: After sufficient k, the R² from the full-HMM activations surpasses that from the 0-HMM and 1-HMM activations
-for most parametrizations (the exceptions are listed in Table 3), so the activations encode belief information
-beyond the Markov order-one approximation. All three curves coincide at near-perfect R² for k = 1. In Appendix K the
-per-sequence gap between the full-HMM and 1-HMM curves at k = 20 correlates with its theoretical counterpart, the
-1 minus R² of predicting the true k = 20 belief from the 1-HMM belief, with Pearson r between 0.59 and 0.86 within
-every family and LLM.
+Saved Outputs: ksuffix_probes_<model>.csv in --output_dir (with an optional --tag before the model key), with the
+columns hmm, param, dist (real, order-1, or order-0), layer, k, seed, and R2, one row per token source, layer, suffix
+length, and seed for every parametrization.
 
 How the code works: k-suffix beliefs for small k come from lookup tables over all possible k-token suffixes (up to
 k = 20 with two tokens and k = 12 with three) and from direct filtering for larger k. For each parametrization,

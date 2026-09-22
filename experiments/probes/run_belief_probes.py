@@ -15,9 +15,15 @@ ordinary least squares from the activations to the corresponding belief state, t
 control permutes the belief states across positions and the random-belief control replaces them with draws from a
 symmetric Dirichlet distribution, both with the same activations and the same split.
 
-Result: The peak per-HMM R² ranges from 0.83 to 0.99 across all families and LLMs, while both controls stay near
-zero at every layer. The geometries decoded at each parametrization's best layer reproduce the ground-truth belief
-geometries (Figures 3, 11, and 12), and the control probes recover no structure (Figures 13 and 14).
+Saved Outputs: r2_<model>.csv with the columns hmm, param, layer, seed, target (real, shuffle, or random), and R2, one
+row per layer, seed, and target for every parametrization. geom_<model>.npz with, for every parametrization under the
+key prefix <family>__<label>, the arrays _true (the belief states of sequence 0 on the late window), _pred (the in-
+sample predictions of the float64 probe at the best layer), _best_layer, _r2 (the seed-mean held-out R² at that
+layer), and _param. geompool_insample_<model>.npz with the arrays _pred, _true, _seed, and _r2_seeds of the in-sample
+fits pooled over the ten sequences. geompool_all_<model>.npz with the arrays _pred, _true, _seed, _r2_seeds, and
+_layers of the held-out predictions at the best layer pooled over the ten sequences. geompool_ctl_<model>.npz with the
+arrays _shuffle_pred, _shuffle_true, _shuffle_r2_seeds, _random_pred, _random_true, and _random_r2_seeds of the two
+control probes under the same protocol.
 
 How the code works: Pass 1 runs for every parametrization and seed. It samples the sequence, computes the exact
 belief states, tokenizes the sequence and matches HMM tokens to model positions, builds the shuffled labels (rng

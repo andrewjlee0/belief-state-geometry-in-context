@@ -17,12 +17,9 @@ parametrization quantify how much belief information NTP and log-NTP themselves 
 the ground-truth NTP to the belief state and one from the ground-truth log-NTP to the belief state, fit on the late
 windows of all 10 sequences pooled together.
 
-Result: For Wing and Strata the R² from activations exceeds that from the ground-truth NTP and log-NTP, so the
-activations carry belief information beyond what either can explain. The same holds for Arch under log-NTP, while
-under NTP roughly half of the Arch parametrizations exceed the baseline in most LLMs, a gradation that Appendix L
-shows is predicted by the ground truth. For Mess3 the map from beliefs to NTP is invertible, so the NTP baseline is
-one and probes cannot distinguish the two. NTP and log-NTP themselves are decoded with R² similar to, and at times
-above, that of the belief probe.
+Saved Outputs: ntp_probes_<model>.csv with the columns hmm, param, layer, seed, target, and R2, where target is one of
+act→beliefs, act→ntp, act→log_ntp, ntp→beliefs, and log_ntp→beliefs. The last two are the pooled model-free baselines,
+repeated in every layer and seed row of their parametrization.
 
 How the code works: The model is loaded once. For each parametrization, a first loop over the seeds computes the
 belief states and NTP without the model, pools their late windows, and fits the two baselines in closed form by

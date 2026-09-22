@@ -11,7 +11,7 @@ Strata(alpha = 0.97, t0 = 0.38, t1 = 0.54)."
 Experiment: This module runs no experiment. Every experiment script reads its families and parametrizations here,
 and every results file labels its rows with the labels defined here.
 
-Result: Not applicable. The parametrizations are the sweep of Appendix C.2 over the entropy and mixing-rate plane.
+Saved Outputs: None. This module writes no files.
 
 How the code works: HMMS maps each family name to its constructor, its order-1 and order-0 constructors, the list of
 parameter tuples, a label function that produces the parametrization label used in every results file (for example

@@ -2,7 +2,8 @@
 
 Daniel Balcells\*, Andrew Jun Lee\*, Chirag Rastogi\*, Paul M. Riechers, Adam Shai, and Xavier Poncini†
 
-\* These authors contributed equally and are listed alphabetically. 
+\* These authors contributed equally and are listed alphabetically.
+
 † Correspondence to xponcini@gmail.com.
 
 This repository contains the code, the figures, and the analysis notebooks behind the paper, which is available on arXiv as [arXiv:2609.17376](https://arxiv.org/abs/2609.17376).
@@ -38,7 +39,7 @@ The repository has six top-level directories:
 - `notebooks/` contains four notebooks, again one per section, that turn the results files into every figure and every number quoted in the paper.
 - `figures/` holds the figures of the paper and its appendices exactly as the notebooks wrote them.
 
-Every file in `src/`, `configs/`, `experiments/`, and `scripts/` opens with the same header, which states the section of the paper it serves, the claim as the paper words it, the experiment, the result, and how the code works.
+Every file in `src/`, `configs/`, `experiments/`, and `scripts/` opens with the same header, which states the section of the paper it serves, the claim as the paper words it, the experiment, the saved outputs, and how the code works.
 
 ## Setup
 

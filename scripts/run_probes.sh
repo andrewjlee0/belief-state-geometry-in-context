@@ -12,7 +12,7 @@
 # Experiment: The five probe scripts of experiments/probes/ on the four families, all 10 parametrizations, and 10
 # seeds per model. The early-context probes take each parametrization's best layer from the belief-probe results.
 #
-# Result: results/r2_<model>.csv, geom_<model>.npz, geompool_{all,insample,ctl}_<model>.npz, ntp_probes_<model>.csv,
+# Saved Outputs: results/r2_<model>.csv, geom_<model>.npz, geompool_{all,insample,ctl}_<model>.npz, ntp_probes_<model>.csv,
 # ksuffix_probes_<model>.csv, transfer_probes_<model>.csv, transfer_probes_gt_<model>.csv, and
 # results/early_context/early_context_<model>__<family>__<label>.npz, read by notebooks/02_probes.ipynb.
 #

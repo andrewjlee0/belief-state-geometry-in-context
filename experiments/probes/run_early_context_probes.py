@@ -14,8 +14,14 @@ evaluate on the first 250 tokens only, because the model's in-context prediction
 after the first few hundred tokens (Figure 2)." The probes have the same size as those of Figure 11, and only the
 positions on which they are evaluated differ.
 
-Result: The early-context geometries are visibly coarser and their R² lower than those of the late-window probes
-of Figure 11.
+Saved Outputs: one file per target, early_context_<model>__<family>__<label>.npz in --output_dir, with the arrays
+layers, seeds, E (the early window length), probe_start, windows, best_layer, idx_te_late, n_matched, true_early_real,
+true_early_shuffle, true_early_random, true_late_te_real, true_late_te_shuffle, true_late_te_random, w<W>_idx_te,
+pred_late_te_real, pred_late_te_shuffle, pred_late_te_random, pred_early_real, pred_early_shuffle, pred_early_random,
+w<W>_pred_real, w<W>_pred_shuffle, and w<W>_pred_random, where every prediction array is float16 with the shape
+(seeds, layers, positions, states) and every label array is float32 with the shape (seeds, positions, states). With
+--no_late the late arrays are absent, and without --no_acts an acts_early_<model>__<family>__<label>__s<seed>.npz with
+the early activations at the best layer is also written per seed.
 
 How the code works: For each target parametrization and seed, the sequence, its belief states, and its tokenization
 are exactly those of the other probe scripts. The residual stream is extracted for the early positions 0 to

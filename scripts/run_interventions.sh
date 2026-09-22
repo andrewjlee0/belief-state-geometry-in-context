@@ -14,7 +14,7 @@
 # donor. Then experiments/interventions/run_prediction_interventions.py on all parametrizations. The Gemma 4
 # checkpoints run with the reference attention kernel, and in float32 for the prediction interventions.
 #
-# Result: results/belief_steering_<donor>_<model>.csv and results/prediction_interventions_<model>.csv, read by
+# Saved Outputs: results/belief_steering_<donor>_<model>.csv and results/prediction_interventions_<model>.csv, read by
 # notebooks/03_interventions.ipynb.
 #
 # How the script works: It loops over the six checkpoints of the paper (override with MODELS="...") and writes to

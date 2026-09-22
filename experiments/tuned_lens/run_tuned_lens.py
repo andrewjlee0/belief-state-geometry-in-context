@@ -17,10 +17,9 @@ lens of Appendix Q.1, the model's own output distribution. Following Section 5, 
 20 percent of the last 5,000-token window and tested on the held-out 80 percent, and every lens is scored by the KL
 divergence from its target and from the ground truth at each layer.
 
-Result: The lens trained toward the ground-truth NTP attains low KL across most layers, below the KL of the model's
-own predictions, while the shuffled and random lenses are substantially worse, for all HMMs and all LLMs (Appendix
-Q.2). The per-layer KL covaries with 1 minus the belief probe's R² across layers (Figure 8, bottom, and Appendix Q.3),
-and the canonical lens shows the same covariation (Appendix Q.1).
+Saved Outputs: tunedlens_<model>.csv in --output_dir, with the columns hmm, param, layer, lens (logit, tuned_concept,
+tuned_hmm, shuffle, random, order1, or cross), seed, kl_self, kl_hmm, and kl_final, one row per held-out sequence for
+every layer and lens of every parametrization.
 
 How the code works: For each parametrization, the late-window activations of the 10 sequences are extracted at
 every layer and pooled, with the ground-truth NTP at the same positions and the seed of each position. The model's

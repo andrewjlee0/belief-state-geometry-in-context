@@ -18,10 +18,11 @@ target's log-NTP at every later layer. The second steers along a direction delta
 which leaves NTP and log-NTP unchanged, and probes decode the delta-component of the belief. The third steers along a
 random unit direction v with the same per-position magnitude and is read out by projecting the activations onto v.
 
-Result: Steering beyond roughly the first third of the network makes the target's log-NTP highly decodable at the
-later layers, and steering earlier is followed by self-repair. The delta-component of the target is installed when
-steering in the final half of the model, with self-repair that occurs for fewer steering layers and is more
-persistent than for the random direction. The same holds for all HMMs and all LLMs except the Gemma class.
+Saved Outputs: belief_steering_<tag><model>.csv in --output_dir, where the tag records the mode, the donor, and the
+split (the paper's runs write belief_steering_story_<donor>_rsplit_<model>.csv). The columns are hmm, param, seed,
+intervene_layer (-1 for the before-steering rows), readout_layer, condition (the donor), intervention (none or steer),
+phase (before or after), probe (clean, frozen, retrain, or fixed_dir), source_kind, target_kind (belief, hidden, ntp,
+log_ntp, or rand_proj), ref (orig or new), metric, value (an R²), n_train, n_test, M_rank, and M_cond.
 
 How the code works: For each parametrization, the 10 sequences and their belief states are computed up front. For each
 sequence the intervened positions are the last k = 5,000 HMM tokens, split into 1,000 training and 4,000 held-out

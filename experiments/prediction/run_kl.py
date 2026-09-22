@@ -15,10 +15,9 @@ full-vocabulary next-token distribution is computed (Section 4.1). The same KL i
 of Section 2.3: the 1-HMM, which predicts from the most recent token only, and the 0-HMM, which predicts the
 stationary token distribution.
 
-Result: In every model the KL falls over the first 5,000 to 10,000 tokens and then plateaus below the 0-HMM and
-1-HMM baselines. For Qwen 3.5 9B the KL converged over the last 5,000 tokens is 0.010 to 0.018 nats for the four
-main-text parametrizations, which matches a k-HMM at k between 4.2 and 11.0. Gemma 4 E2B is the exception and is
-no more accurate than the 1-HMM on 6 of 10 Wing and 4 of 10 Strata parametrizations.
+Saved Outputs: kl_<model>.csv in --output_dir, with one row per position from 100 onward for every family,
+parametrization, seed, and source, and the columns position, KL (the rolling mean over the 100 positions ending
+there), source (LLM, Order-1, or Order-0), hmm, param, and seed.
 
 How the code works: The model is loaded once. For each parametrization the script builds the transition matrices,
 a lookup table with the 1-HMM's next-token distribution for each previous token, and the 0-HMM's next-token row.

@@ -9,7 +9,7 @@ held-out 80% (4,000 tokens)." The affine embedding of Section 6.1 is the same re
 
 Experiment: This module runs no experiment.
 
-Result: Not applicable.
+Saved Outputs: None. This module writes no files.
 
 How the code works: Every function appends a column of ones to the regressors, so that the least-squares solution
 W = pinv([X 1]) Y includes a bias. fit_and_evaluate_multi reuses one pseudo-inverse for several targets that share the

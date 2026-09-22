@@ -16,10 +16,12 @@ state." The targets are past-consistent (a belief history continued from the seq
 sequence's suffix) and past-inconsistent (another sequence's belief states), and the random-belief control injects
 symmetric-Dirichlet beliefs but is scored against the past-inconsistent target's NTP.
 
-Result: The KL to the target falls well below the KL to the original belief for every k, and in later layers it is on
-the order of the unmodified model's KL. The random control's KL does not drop. The shift toward the target grows with
-k, and the past-consistent condition outperforms the past-inconsistent one at k = 1 with an advantage that disappears
-by k = 10 (Appendix P). The results hold for nearly all HMMs across all LLMs.
+Saved Outputs: prediction_interventions_<model><tag>.csv in --output_dir, with one row per sequence, layer, k,
+intervention, and condition plus one unmodified row per sequence, and the columns hmm, param, seed, layer (-1 for the
+unmodified row), k, intervention (none, patch, or steer), condition (unmodified, round_trip, past_consistent,
+past_inconsistent, or random), draw, kl_to_target, kl_to_factual, kl_to_pi_target (the random condition scored against
+the past-inconsistent target's NTP), baseline_kl, context, tail_check, kl_to_target_hmm, kl_to_factual_hmm,
+kl_to_pi_target_hmm, baseline_kl_hmm, off_mass, and tgt_kl_to_factual.
 
 How the code works: For each parametrization, the 10 sequences and their belief states are computed up front, and the
 donor of each sequence is the next seed's sequence. For each sequence, the encoder (activations to belief) and the

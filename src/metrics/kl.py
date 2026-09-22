@@ -8,7 +8,7 @@ NTP, p(x_1:t) (extended to the LLM's full vocabulary size) and the LLM's NTP at 
 Experiment: This module runs no experiment. run_kl.py uses it for the order-1 and order-0 baselines, whose
 distributions live on the HMM tokens. The model's full-vocabulary KL is computed in src/model_utils.py.
 
-Result: Not applicable.
+Saved Outputs: None. This module writes no files.
 
 How the code works: kl_divergence returns, for each row, the sum over tokens of p log((p + eps) / (q + eps)) with
 eps = 1e-12.

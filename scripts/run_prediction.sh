@@ -9,7 +9,7 @@
 #
 # Experiment: experiments/prediction/run_kl.py on the four families, all 10 parametrizations, and 10 seeds per model.
 #
-# Result: results/kl_<model>.csv for each model, read by notebooks/01_prediction.ipynb.
+# Saved Outputs: results/kl_<model>.csv for each model, read by notebooks/01_prediction.ipynb.
 #
 # How the script works: It loops over the six checkpoints of the paper (override with MODELS="...") and writes to
 # results/ (override with RESULTS_DIR=...). Usage: bash scripts/run_prediction.sh

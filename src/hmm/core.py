@@ -11,7 +11,7 @@ Experiment: This module runs no experiment. It provides the ground truth of ever
 the belief states that the probes decode and the interventions inject, the next-token probabilities that the KL
 divergences compare against, and the k-suffix beliefs of the k-suffix probes.
 
-Result: Not applicable.
+Saved Outputs: None. This module writes no files.
 
 How the code works: stationary_distribution returns the left eigenvector of the summed transition matrix with
 eigenvalue one, normalized to sum to one. sample_hmm_sequence draws a hidden-state path and its tokens from a seeded

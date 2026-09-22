@@ -11,7 +11,7 @@ HMM tokens and LLM tokens."
 Experiment: This module runs no experiment. Every experiment script loads its model, formats its sequences, matches
 HMM tokens to model positions, and extracts the residual stream through these functions.
 
-Result: Not applicable.
+Saved Outputs: None. This module writes no files.
 
 How the code works: MODEL_CONFIGS lists the six checkpoints of the paper with their architecture family. ModelWrapper
 exposes the decoder layers of the Qwen, Llama, and Gemma architectures uniformly and runs the decoder without the

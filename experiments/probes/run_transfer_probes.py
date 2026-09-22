@@ -14,9 +14,10 @@ that same sequence, with the paper's 20/80 train-test split. It is compared with
 no LLM activations, whose entry (i, j) is the R² of a regression from parametrization i's belief states to
 parametrization j's belief states on the same sequence.
 
-Result: Across most layers the empirical and ground-truth matrices are correlated for all HMM families and all six
-LLMs, which supports the HMM-specificity account. The empirical transfer R² values are substantially higher in
-magnitude than the ground-truth ones, which suggests that the activations also carry some HMM-generic information.
+Saved Outputs: transfer_probes_<model>.csv with the columns hmm, source, target, layer, seed, R2, and self (whether
+source and target are the same parametrization), one row per source parametrization, target parametrization, layer,
+and seed. transfer_probes_gt_<model>.csv with the columns hmm, source, target, seed, R2, and self for the ground-truth
+regression, which has no layer.
 
 How the code works: Two passes. In the empirical pass, for each source parametrization i and seed, the script samples
 i's sequence, runs the model once, extracts the late-window activations at every layer, computes the belief states of

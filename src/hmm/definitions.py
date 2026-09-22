@@ -10,8 +10,7 @@ contrasting case, called Mess3 (Marzen and Crutchfield, 2017), where the dynamic
 Experiment: This module runs no experiment. Every experiment script builds its HMM from these constructors through
 configs/hmm_configs.py, and the order-1 and order-0 constructions are the k-HMM baselines of Sections 4 and 5.
 
-Result: Not applicable. The matrices are the ones written out in Appendix C.1, and each family's parameter range
-keeps every entry nonnegative and the summed transition matrix row-stochastic.
+Saved Outputs: None. This module writes no files.
 
 How the code works: Each family has a function that returns the list of per-token transition matrices T^(x), whose
 entry (i, j) is the joint probability of emitting token x and moving from hidden state i to hidden state j

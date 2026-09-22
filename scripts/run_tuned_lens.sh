@@ -11,7 +11,7 @@
 # Experiment: experiments/tuned_lens/run_tuned_lens.py on the four families and all 10 parametrizations per model,
 # with the shuffled, random, order-1, and cross-parametrization control lenses.
 #
-# Result: results/tunedlens_<model>.csv for each model, read by notebooks/04_tuned_lens.ipynb.
+# Saved Outputs: results/tunedlens_<model>.csv for each model, read by notebooks/04_tuned_lens.ipynb.
 #
 # How the script works: It loops over the six checkpoints of the paper (override with MODELS="...") and writes to
 # results/ (override with RESULTS_DIR=...). Usage: bash scripts/run_tuned_lens.sh
