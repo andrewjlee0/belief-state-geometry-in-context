@@ -12,9 +12,19 @@ This repository contains the code, the figures, and the analysis notebooks behin
 
 Large language models (LLMs) trained on next-token prediction exhibit remarkable in-context learning (ICL) abilities, yet the representations that support ICL remain poorly understood. We consider such representations in a controlled setting: prompting LLMs with data emitted from hidden Markov models (HMMs) and probing for the corresponding belief state, the posterior distribution over the HMM's hidden states given the observed token history. Across six open-source LLMs prompted with data from 40 HMMs selected for non-trivial belief structure, we find that belief states are linearly decodable from residual stream activations, with peak probe R²-values from 0.83–0.99 across HMM and LLM combinations, ranging from early to late layers. To establish functional relevance, we intervene directly on the probe-identified subspace via patching and steering, resulting in downstream prediction quality on the order of the untampered model, while controls degrade performance substantially. Together, these results provide representation-level evidence that ICL in open-source LLMs approximates optimal Bayesian prediction over a context-inferred generative model. More broadly, our findings extend prior results linking input-distribution structure to activation geometry: from toy networks trained explicitly on HMM data to production-scale LLMs.
 
+## Setup
+
+```bash
+pip install torch transformers accelerate numpy pandas scikit-learn scipy numba tqdm matplotlib seaborn jupyter huggingface_hub sentencepiece protobuf
+export HF_HOME=/path/to/model/cache
+export HF_TOKEN=hf_...          # required for the gated Llama and Gemma checkpoints
+```
+
+Every script is run from the repository root, takes `--model` (a Hugging Face id), `--output_dir`, and `--device`, and names its output files with a short model key. The six keys are `qwen35_9b`, `qwen35_4b`, `llama_31_8b`, `llama_32_3b`, `gemma_4_e4b`, and `gemma_4_e2b`.
+
 ## Reproducing the paper
 
-The scripts save their results in `results/`, and the figures made from them are already generated in `figures/`.
+All figures of the paper are saved in `figures/`.
 
 To reproduce a section of the paper, run a "runner" script in `scripts/` to execute every experiment of that section for all six models and save the results files to `results/`. Then, open and run the notebook of the same section to load those files and save the figures to `figures/`.
 
@@ -38,17 +48,7 @@ The repository has six directories:
 
 Every file in `src/`, `configs/`, `experiments/`, and `scripts/` opens with the same header, which states the section of the paper it belongs with, the claim as the paper states it, the experiment, the saved outputs, and how the code works.
 
-## Setup
-
-```bash
-pip install torch transformers accelerate numpy pandas scikit-learn scipy numba tqdm matplotlib seaborn jupyter huggingface_hub sentencepiece protobuf
-export HF_HOME=/path/to/model/cache
-export HF_TOKEN=hf_...          # required for the gated Llama and Gemma checkpoints
-```
-
-Every script is run from the repository root, takes `--model` (a Hugging Face id), `--output_dir`, and `--device`, and names its output files with a short model key. The six keys are `qwen35_9b`, `qwen35_4b`, `llama_31_8b`, `llama_32_3b`, `gemma_4_e4b`, and `gemma_4_e2b`.
-
-## Shared Experimental Design
+## Experiments
 
 All experiments share the following experimental design.
 
@@ -56,8 +56,6 @@ All experiments share the following experimental design.
 2. Write the sequence as space-separated single letters and run the model once with the whole sequence as context.
 3. Keep the final 5,000-token window, where the model's predictions have converged.
 4. Where a probe is involved, fit OLS on a random 20 percent of that window and score the probe by R² on the other 80 percent, with the split seeded by the sequence seed.
-
-## Experiments
 
 The following files in `experiments/` run the experiments. All files save the results in `results/`.
 
