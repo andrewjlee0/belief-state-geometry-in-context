@@ -14,6 +14,8 @@ Large language models (LLMs) trained on next-token prediction exhibit remarkable
 
 ## Reproducing the paper
 
+The scripts save their results in `results/`, and the figures made from them are already generated in `figures/`.
+
 To reproduce a section of the paper, run a "runner" script in `scripts/` to execute every experiment of that section for all six models and save the results files to `results/`. Then, open and run the notebook of the same section to load those files and save the figures to `figures/`.
 
 1. **Section 4.** `bash scripts/run_prediction.sh`, then `notebooks/01_prediction.ipynb`.
