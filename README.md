@@ -1,6 +1,6 @@
 # Large Language Models Develop Belief State Geometry In-Context
 
-[![NeurIPS 2026](https://img.shields.io/badge/NeurIPS%202026-Main%20Track-blue)](https://neurips.cc/) [![arXiv](https://img.shields.io/static/v1?label=arXiv&message=2609.17376&color=b31b1b)](https://arxiv.org/abs/2609.17376)
+[![NeurIPS 2026](.github/badges/neurips2026.svg)](https://neurips.cc/) [![arXiv](.github/badges/arxiv.svg)](https://arxiv.org/abs/2609.17376)
 
 Daniel Balcells\*, Andrew Jun Lee\*, Chirag Rastogi\*, Paul M. Riechers, Adam Shai, and Xavier Poncini†
 
