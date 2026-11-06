@@ -1,19 +1,21 @@
 #!/bin/bash
-# Runner for Section 5: belief-state probes and geometries, NTP and log-NTP probes, k-suffix probes, transfer probes,
-# and early-context probes, for every model.
+# Runner for Section 5 and Appendix F: belief-state probes and geometries, NTP and log-NTP probes, k-suffix probes,
+# transfer probes, early-context probes, and the contiguous-split and held-out-sequence probes, for every model.
 #
-# Paper section: Section 5 (Linearly probing the belief state geometry) with Figures 3, 4, and 5, Appendix D with
-# Figures 11 to 15, and Appendices I to L with Figures 29 to 52.
+# Paper section: Section 5 (Linearly probing the belief state geometry) with Figures 3, 4, and 5, Appendix E with
+# Figures 10 to 14, Appendix F with Table 3, Appendix J.2 with Figures 24 to 26, and Appendix K.2 with Figures 41 to 46
+# and 59 to 76.
 #
 # Claim: Belief states are linearly decodable from the residual stream, the decoded geometry is the belief geometry
 # of the HMM, and the belief information exceeds what the two controls, short-suffix beliefs, NTP, and log-NTP can
 # explain.
 #
-# Experiment: The five probe scripts of experiments/probes/ on the four families, all 10 parametrizations, and 10
+# Experiment: The seven probe scripts of experiments/probes/ on the four families, all 10 parametrizations, and 10
 # seeds per model. The early-context probes take each parametrization's best layer from the belief-probe results.
 #
 # Saved Outputs: results/r2_<model>.csv, geom_<model>.npz, geompool_{all,insample,ctl}_<model>.npz, ntp_probes_<model>.csv,
-# ksuffix_probes_<model>.csv, transfer_probes_<model>.csv, transfer_probes_gt_<model>.csv, and
+# ksuffix_probes_<model>.csv, transfer_probes_<model>.csv, transfer_probes_gt_<model>.csv,
+# contiguous_split_probes_<model>.csv, heldout_sequence_probes_<model>.csv, and
 # results/early_context/early_context_<model>__<family>__<label>.npz, read by notebooks/02_probes.ipynb.
 #
 # How the script works: It loops over the six checkpoints of the paper (override with MODELS="...") and writes to
@@ -30,7 +32,10 @@ for M in $MODELS; do
     python experiments/probes/run_ntp_probes.py       --model "$M" --families Mess3 Arch Wing Strata --output_dir "$RESULTS_DIR"
     python experiments/probes/run_ksuffix_probes.py   --model "$M" --families Mess3 Arch Wing Strata --output_dir "$RESULTS_DIR"
     python experiments/probes/run_transfer_probes.py  --model "$M" --families Mess3 Arch Wing Strata --output_dir "$RESULTS_DIR"
-    # The early-context probes of Figure 15 use each parametrization's best layer from r2_<model>.csv.
+    # The early-context probes of Figure 14 use each parametrization's best layer from r2_<model>.csv.
     python experiments/probes/run_early_context_probes.py --model "$M" --all_params --early_len 5000 --windows 5000:1000 \
         --layers best --r2_csv "$RESULTS_DIR/r2_${ms}.csv" --no_acts --output_dir "$RESULTS_DIR/early_context"
+    # The contiguous-split and held-out-sequence probes of Appendix F (Table 3).
+    python experiments/probes/run_contiguous_split_probes.py --model "$M" --families Mess3 Arch Wing Strata --output_dir "$RESULTS_DIR"
+    python experiments/probes/run_heldout_sequence_probes.py --model "$M" --families Mess3 Arch Wing Strata --output_dir "$RESULTS_DIR"
 done

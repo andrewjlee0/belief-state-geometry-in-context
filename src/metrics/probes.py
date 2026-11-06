@@ -1,6 +1,6 @@
 """Ordinary-least-squares linear probes with a bias term.
 
-Paper section: Section 5.1 (Method). Every probe of Sections 5 to 7 is fit with these functions or with the same
+Paper section: Section 5.1 (Method). Every probe of Sections 5 and 6 and Appendix H is fit with these functions or with the same
 ones-column pseudo-inverse written out in place.
 
 Claim: In the paper's words, "At each layer, we fit linear regression via ordinary least squares from h_l,t(x_1:N) to
@@ -15,8 +15,7 @@ How the code works: Every function appends a column of ones to the regressors, s
 W = pinv([X 1]) Y includes a bias. fit_and_evaluate_multi reuses one pseudo-inverse for several targets that share the
 regressors and returns the held-out R² of each target. fit_and_evaluate_multi_stacked does the same for targets
 stacked side by side (the k-suffix probes) and returns the R² of each slice. fit_probe and predict_probe are the two
-halves used when the fitted weights are needed later, for the encoders, embeddings, and frozen probes of Sections 6
-and 7. compute_r2 is the coefficient of determination pooled over the output dimensions, one minus the residual sum
+halves used when the fitted weights are needed later, for the encoders, embeddings, and frozen probes of Section 6. compute_r2 is the coefficient of determination pooled over the output dimensions, one minus the residual sum
 of squares over the total sum of squares.
 """
 import torch

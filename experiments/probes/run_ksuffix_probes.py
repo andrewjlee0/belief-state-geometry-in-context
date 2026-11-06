@@ -1,9 +1,10 @@
 """k-suffix belief probes from activations on full-HMM, 1-HMM, and 0-HMM sequences.
 
-Paper section: Section 5.2, the paragraph "Residual stream activations capture more than order-one belief state
-structure", with Figure 5 (top), Appendix K with Figures 41 to 46, and Table 3 of Appendix F.
+Paper section: Section 5.2, the paragraph "Residual stream activations carry belief state information beyond order-one
+correlations", with Figure 5 (left panels), Figure 26 (top), Appendix K.2.5 with Figures 65 to 70, and Table 4 of
+Appendix G.
 
-Claim: "Residual stream activations capture more than order-one belief state structure." In the paper's words, "If the
+Claim: "Residual stream activations carry belief state information beyond order-one correlations." In the paper's words, "If the
 activations encode belief states of short-suffix approximations of the full HMM, then the full HMM's belief state
 should be equally decodable whether the activations are induced by full HMM sequences or by sequences that preserve
 only short-range correlations."
@@ -39,7 +40,7 @@ from src.hmm import (stationary_distribution, sample_hmm_sequence, full_bayesian
 from src.metrics.probes import fit_and_evaluate_multi_stacked
 from src.model_utils import load_model, tokens_to_prompt, match_positions, get_tok_ids, extract_activations_chunked
 
-# The three token sources of Figure 5 (top): the full HMM, its order-1 approximation, and its order-0 approximation.
+# The three token sources of Figure 5 (left panels): the full HMM, its order-1 approximation, and its order-0 approximation.
 DISTS = ["real", "order-1", "order-0"]
 
 def order0_tokens(source, T, pi, n_tok, seq_len, seed):

@@ -1,9 +1,10 @@
 #!/bin/bash
-# Runner for Sections 6 and 7: belief steering with frozen probes, and patching and steering of the prediction, for
+# Runner for Section 6: belief steering with frozen probes, and patching and steering of the prediction, for
 # every model.
 #
-# Paper section: Section 6 with Figure 6 and Appendices M, N, and O with Figures 53 to 70; Section 7 with Figure 7,
-# Appendix E with Figure 16, and Appendix P with Figures 71 to 76.
+# Paper section: Section 6 (Intervening on the belief state subspace). Part (a) with Figures 6 and 27, Appendix I with
+# Figure 22, and Appendices K.3.1, K.3.3, and K.3.4 with Figures 77 to 82 and 89 to 100; part (b) with Figures 7 and 28
+# and Appendix K.3.2 with Figures 83 to 88.
 #
 # Claim: Steering the belief state changes the decodable log-NTP and the belief's NTP-invisible component at later
 # layers, and patching or steering the belief subspace shifts the model's prediction toward the injected belief.
@@ -30,7 +31,7 @@ for M in $MODELS; do
     # The Gemma 4 checkpoints use the reference attention kernel (and float32 for the prediction interventions).
     EXTRA6=""; EXTRA7=""
     case "$M" in google/gemma*) EXTRA6="--sdp_backend math"; EXTRA7="--dtype float32 --sdp_backend math";; esac
-    # Section 6: one job per donor and family, then the parts are merged into belief_steering_<donor>_<model>.csv.
+    # Part (a): one job per donor and family, then the parts are merged into belief_steering_<donor>_<model>.csv.
     for DONOR in past_inconsistent ntp_matched random_matched; do
         FAMS="Mess3 Arch Wing Strata"; [ "$DONOR" != "past_inconsistent" ] && FAMS="Arch Wing Strata"
         for FAM in $FAMS; do
@@ -47,7 +48,6 @@ df.to_csv(os.path.join(R, f"belief_steering_{donor}_{ms}.csv"), index=False)
 print(f"{ms} {donor}: {len(parts)} parts -> {len(df):,} rows")
 PY
     done
-    # Section 7
-    # Section 7: patching and steering of the prediction at full context, all parametrizations.
+    # Part (b): patching and steering of the prediction at full context, all parametrizations.
     python experiments/interventions/run_prediction_interventions.py --model "$M" --families Mess3 Arch Wing Strata --all_params $EXTRA7 --output_dir "$RESULTS_DIR"
 done

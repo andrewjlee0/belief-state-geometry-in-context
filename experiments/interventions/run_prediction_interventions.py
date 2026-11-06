@@ -1,18 +1,18 @@
 """Patching and steering the belief-state subspace at full context, scored by the KL divergence from the injected belief's
 next-token probabilities to the model's prediction.
 
-Paper section: Section 7 (Controlling predictions via the belief state) with Figure 7 and the right panel of Figure 1 (b),
-Appendix E with Figure 16, and Appendix P with Figures 71 to 76.
+Paper section: Section 6 (Intervening on the belief state subspace), part (b), with Figures 7 and 28 and the right panel
+of Figure 1 (b), and Appendix K.3.2 with Figures 83 to 88.
 
-Claim: "Belief state interventions systematically shift predictions" and "The injected belief largely overrides
-conflicting context." In the paper's words, "Across k suffix lengths, the target's KL (solid) falls well below the
-original KL (dotted). This suggests that injecting a target belief state into the subspace moves the LLM's predictions
-toward the target's and away from the ones that its true history implies."
+Claim: "Belief state interventions systematically shift predictions." In the paper's words, "intervening on the final
+third of layers consistently yields the most effective results, with intervened outputs approaching, and at times,
+outperforming the unmodified LLM", and "For each condition, the solid line sits below the dotted line of the same
+color: the model predicts the injected belief, not the original one."
 
 Experiment: Steering and patching as defined in Section 6.1, applied at the last k positions of the sequence for
-k in {1, 5, 10}. In the paper's words, "we measure the KL divergence between the intervened LLM's predictions at the
-final token position N and the ground-truth NTP implied by the final target belief state or the final original belief
-state." The targets are past-consistent (a belief history continued from the sequence's own belief over another
+k in {1, 5, 10}. In the paper's words, "We quantify the performance of the intervention by measuring the KL divergence
+between the intervened LLM's predictions at the final token position N and the ground-truth NTP implied by the final
+target belief state" eta_target,N "or the final original belief state" eta(x_1:N). The targets are past-consistent (a belief history continued from the sequence's own belief over another
 sequence's suffix) and past-inconsistent (another sequence's belief states), and the random-belief control injects
 symmetric-Dirichlet beliefs but is scored against the past-inconsistent target's NTP.
 
@@ -101,7 +101,7 @@ def _llm_ntp(last_hidden_row, lm_head_w, tok_ids, cap):
             logits = torch.tanh(logits / cap) * cap     # element-wise; Gemma
         return torch.softmax(logits, dim=-1).cpu().numpy()
 
-# The intervention conditions of Section 7: the round trip (patching with the sequence's own decoded belief, a check),
+# The intervention conditions of Section 6 (b): the round trip (patching with the sequence's own decoded belief, a check),
 # past-consistent and past-inconsistent targets, and the random-belief control.
 PATCH_CONDS = ["round_trip", "past_consistent", "past_inconsistent", "random"]
 STEER_CONDS = ["past_consistent", "past_inconsistent", "random"]
@@ -248,7 +248,7 @@ def run_sequence(wrapper, tokenizer, cfg, T_matrices, pi, beliefs_all, tokens_al
           f"cached-vs-full tail residual max rel diff {tail_check:.2e}", flush=True)
 
     # The unmodified model's prediction at the measurement position, scored against the factual NTP (the baseline_kl
-    # columns and the gray curve of Figure 7). The two logit paths must agree on the distribution restricted to the HMM
+    # columns and the black dotted line of Figure 7). The two logit paths must agree on the distribution restricted to the HMM
     # tokens.
     p_clean_hmm = _llm_ntp(lh_c, lm_head_w, tok_ids, cap)[0]                   # restricted to the HMM tokens (the *_hmm columns)
     log_qc, log_in_c = _llm_ntp_fullvocab(lh_c, lm_head_w, tok_ids, cap)
@@ -340,7 +340,7 @@ def run_sequence(wrapper, tokenizer, cfg, T_matrices, pi, beliefs_all, tokens_al
 def main():
     # Command-line options. The paper's runs use --all_params with the default sequences, seeds, split, and k values;
     # scripts/run_interventions.sh adds --dtype float32 --sdp_backend math for the Gemma 4 checkpoints.
-    P = argparse.ArgumentParser(description="Patching and steering the belief-state subspace at full context (Section 7)")
+    P = argparse.ArgumentParser(description="Patching and steering the belief-state subspace at full context (Section 6 (b))")
     P.add_argument("--model", default="Qwen/Qwen3.5-9B")
     P.add_argument("--output_dir", default="results")
     P.add_argument("--families", nargs="+", default=["Mess3", "Arch", "Wing", "Strata"])

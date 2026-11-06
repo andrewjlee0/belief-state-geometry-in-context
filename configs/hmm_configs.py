@@ -1,12 +1,12 @@
 """The 40 HMMs of the paper: four families with 10 parametrizations each, and the representative parametrization of
 each family.
 
-Paper section: Section 3 (Experimental setup, HMMs) and Appendix C.2 with Tables 1 and 2 and Figure 10.
+Paper section: Section 3 (Experimental setup, HMMs) and Appendix D.2 with Tables 1 and 2 and Figure 9.
 
-Claim: In the paper's words, "We experiment on 40 HMMs with non-trivial belief geometries, spanning four families, Mess3,
-Arch, Wing, and Strata, with 10 parametrizations per family", and "Results are presented for one illustrative
-parametrization per family: Mess3(alpha = 0.01, x = 0.02), Arch(alpha = 0.99), Wing(alpha = 0.98, x = 0.4),
-Strata(alpha = 0.97, t0 = 0.38, t1 = 0.54)."
+Claim: In the paper's words, "We experiment on 40 HMMs with non-trivial belief geometries, spanning four families—Mess3,
+Arch, Wing, and Strata—with 10 parametrizations per family", and "We fix one illustrative parametrization per family:
+Mess3(α = 0.01, x = 0.02), Arch(α = 0.99), Wing(α = 0.98, x = 0.4), Strata(α = 0.97, t0 = 0.38, t1 = 0.54). Main-text
+figures show Mess3 and Wing, while Appendix J presents all four for Qwen3.5-9B."
 
 Experiment: This module runs no experiment. Every experiment script reads its families and parametrizations here,
 and every results file labels its rows with the labels defined here.
@@ -16,7 +16,7 @@ Saved Outputs: None. This module writes no files.
 How the code works: HMMS maps each family name to its constructor, its order-1 and order-0 constructors, the list of
 parameter tuples, a label function that produces the parametrization label used in every results file (for example
 "a=0.98, x=0.4"), the token letters, and the numbers of tokens and hidden states. REPRESENTATIVES holds the
-main-text parametrization of each family.
+illustrative parametrization of each family (Appendix J shows all four; the main text shows Mess3 and Wing).
 """
 import numpy as np
 from src.hmm.definitions import *

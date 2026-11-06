@@ -1,12 +1,11 @@
 """Transfer probes between the parametrizations of a family, and their ground-truth counterpart.
 
 Paper section: Section 5.2, the paragraph "Residual stream activations carry HMM-specific belief state information",
-with Figure 4, and Appendix J with Figures 35 to 40.
+with Figures 4 and 25, and Appendix K.2.4 with Figures 59 to 64.
 
-Claim: "Residual stream activations carry HMM-specific belief state information." In the paper's words, "If activations
-carry HMM-specific information, R² should be higher between parametrizations whose belief state geometries are more
-similar, and lower between dissimilar ones. That is, the pattern of transfer R² across parametrization pairs should
-covary with the degree to which the parametrizations' belief states predict one another."
+Claim: "Residual stream activations carry HMM-specific belief state information." In the paper's words, "To test for
+HMM-specific information, we ask whether cross-parametrization transfer R² tracks how well the corresponding
+ground-truth belief states predict one another."
 
 Experiment: For each family and layer, an empirical matrix is built whose entry (i, j) is the R² of a transfer probe
 trained on the activations of parametrization i's sequence to predict parametrization j's belief states computed on

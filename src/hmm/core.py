@@ -1,11 +1,11 @@
 """Exact computations on HMMs: stationary distribution, sequence sampling, Bayesian belief states, next-token
 probabilities, and k-suffix beliefs.
 
-Paper section: Sections 2.1 to 2.3 (Equations 1 to 6).
+Paper section: Sections 2.1 to 2.3 (Equations 1 to 5) and Appendix D.3 (Equation 11).
 
 Claim: In the paper's words, "we refer to the posterior distribution over hidden states given the observations x_1:t as
 the belief state" (Equation 3), the next-token probabilities are p(x_1:t) = eta(x_1:t) M with the emission matrix M
-(Equation 5), and the k-HMM predicts from the belief state of the k most recent tokens, eta(x_t-k+1:t) (Equation 6).
+(Equation 5), and the k-HMM predicts from the belief state of the k most recent tokens, eta(x_t-k+1:t) (Equation 11).
 
 Experiment: This module runs no experiment. It provides the ground truth of every experiment: the token sequences,
 the belief states that the probes decode and the interventions inject, the next-token probabilities that the KL

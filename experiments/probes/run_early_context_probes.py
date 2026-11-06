@@ -2,16 +2,16 @@
 plus the late-window probe transferred to the early positions.
 
 Paper section: Section 5.2, the end of the paragraph "Belief states are linearly decodable from residual stream
-activations", and Appendix D with Figure 15.
+activations", and Appendix E with Figure 14.
 
 Claim: In the paper's words, "we find that probes fit to the first 5,000 token positions recover visibly coarser
-geometries with lower R² when evaluated at very early windows of the sequence (Figure 15), consistent with the
-model's in-context prediction accuracy being worse early in-context (see Figure 2)."
+geometries with lower R² when evaluated at very early windows of the sequence (Figure 14), consistent with the
+model's in-context prediction accuracy being worse early in-context (Figure 2)."
 
-Experiment: In the paper's words, "In Figure 15, we visualize the geometry from a linear probe trained on 1,000 of
+Experiment: In the paper's words, "In Figure 14, we visualize the geometry from a linear probe trained on 1,000 of
 the first 5,000 tokens, evaluated on its held-out positions among the first 250 tokens, to the belief state. We
-evaluate on the first 250 tokens only, because the model's in-context prediction accuracy almost fully converges
-after the first few hundred tokens (Figure 2)." The probes have the same size as those of Figure 11, and only the
+evaluate on the first 250 tokens only, because the model's in-context prediction accuracy remains poor (Figure 2)."
+The probes have the same size as those of Figure 10, and only the
 positions on which they are evaluated differ.
 
 Saved Outputs: one file per target, early_context_<model>__<family>__<label>.npz in --output_dir, with the arrays
@@ -33,7 +33,7 @@ belief states and for shuffled and random labels. The late-window probe of Secti
 split of the late window) is also applied to every early position and its predictions stored, with its predictions
 on the late test split as a reference. Everything is stored as predictions and labels in
 early_context_<model>__<family>__<label>.npz, and the notebook computes R² on the positions it draws (the first
-250 for Figure 15).
+250 for Figure 14).
 """
 import argparse, gc, os, sys, time
 import numpy as np, pandas as pd, torch
@@ -43,7 +43,7 @@ from configs.hmm_configs import HMMS
 from src.hmm import stationary_distribution, sample_hmm_sequence, full_bayesian_beliefs
 from src.model_utils import load_model, tokens_to_prompt, match_positions, get_tok_ids, extract_activations_chunked
 
-# The four main-text parametrizations. --all_params replaces them by every parametrization of the four families.
+# The four representative parametrizations. --all_params replaces them by every parametrization of the four families.
 DEFAULT_TARGETS = ["Mess3=a=0.01, x=0.02", "Arch=a=0.99", "Wing=a=0.98, x=0.4", "Strata=a=0.97, t0=0.38, t1=0.54"]
 
 # Append a ones column so that the least-squares probe has a bias term.
@@ -51,7 +51,7 @@ def _aug(X):
     return torch.cat([X, torch.ones(X.shape[0], 1, device=X.device, dtype=X.dtype)], dim=1)
 
 def main():
-    # Command-line options. The paper's Figure 15 uses --early_len 5000 --windows 5000:1000 --layers best with the
+    # Command-line options. The paper's Figure 14 uses --early_len 5000 --windows 5000:1000 --layers best with the
     # r2_<model>.csv of the belief probes; the defaults for sequences, seeds, and split match the other probe scripts.
     P = argparse.ArgumentParser()
     P.add_argument("--model", default="Qwen/Qwen3.5-9B")

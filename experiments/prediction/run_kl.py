@@ -1,12 +1,12 @@
 """In-context prediction accuracy: the KL divergence between the HMM's next-token probabilities and the LLM's.
 
-Paper section: Section 4 (Evaluating in-context prediction accuracy) with Figure 2, and Appendices G and H with
-Figures 17 to 28.
+Paper section: Section 4 (Evaluating in-context prediction accuracy) with Figure 2, Appendix J.1 with Figure 23, and
+Appendices K.1.1 and K.1.2 with Figures 29 to 40.
 
 Claim: "In-context prediction converges" and "LLMs outperform low-order HMM predictors". In the paper's words,
 "Figure 2 shows that the KL falls rapidly over the first 5,000-10,000 tokens, and then plateaus, during which we say
 that the model's predictions have converged", and for Qwen 3.5 9B "the converged KL sits well below that of the
-0-HMM and 1-HMM, and matches that of the k-HMM at k = 4.2-11.0 for the four main-text parametrizations".
+0-HMM and 1-HMM, and matches that of the k-HMM at k = 4.2-11.0 for the four representative parametrizations".
 
 Experiment: For every parametrization of every family and each of 10 seeds, a 20,000-token sequence is sampled from
 the HMM, written as space-separated letters, and run through the model once. At every position the KL divergence

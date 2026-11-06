@@ -1,17 +1,18 @@
 """Belief-state probes at every layer with shuffled and random controls, and the decoded belief geometries.
 
 Paper section: Section 5.1 (Method) and Section 5.2, the paragraph "Belief states are linearly decodable from residual
-stream activations", with Figure 3 and the middle panel of Figure 1 (b), Appendix D with Figures 11 to 14, and
-Appendix I with Figures 29 to 34.
+stream activations", with Figures 3 and 24 and the middle panel of Figure 1 (b), Appendix E with Figures 10 to 13, and
+Appendix K.2.1 with Figures 41 to 46.
 
 Claim: "Belief states are linearly decodable from residual stream activations." In the paper's words, "linear probes
 achieve high R² values in early-to-middle layers and remain high thereafter. Across all HMM families and all LLMs, the
 peak per-HMM R² ranges from 0.83 to 0.99", and "Two control probes cannot explain these high R² values."
 
-Experiment: In the paper's words, "For each input sequence x_1:N, we extract residual stream activations at every
-token position t well after convergence (t >= 15,000) and every layer. At each layer, we fit linear regression via
-ordinary least squares from the activations to the corresponding belief state, training on a random 20% of positions
-(1,000 tokens) and evaluating on the held-out 80% (4,000 tokens). Probes are fit per-sequence." The shuffled-belief
+Experiment: In the paper's words, "For each input sequence x_1:N, we extract residual stream activations h_l,t(x_1:N)
+at every token position t well after convergence (t >= 15,000) and every layer l. At each layer, we fit linear
+regression via ordinary least squares from h_l,t(x_1:N) to the corresponding belief state eta(x_1:t), training on a
+random 20% of positions (1,000 tokens) and evaluating on the held-out 80% (4,000 tokens). Probes are fit
+per-sequence." The shuffled-belief
 control permutes the belief states across positions and the random-belief control replaces them with draws from a
 symmetric Dirichlet distribution, both with the same activations and the same split.
 
@@ -166,7 +167,7 @@ def main():
             key = f"{hmm_name}__{label}"
 
             # The best layer of this parametrization: the layer whose real-target R² averaged over the seeds is highest,
-            # which is the layer shown in Figures 3 and 11 to 15.
+            # which is the layer shown in Figures 3 and 10 to 14.
             sub = r2_df[(r2_df["hmm"]==hmm_name)&(r2_df["param"]==label)&(r2_df["target"]=="real")]
             if len(sub)==0: continue
             layer_means = sub.groupby("layer")["R2"].mean()
@@ -197,7 +198,7 @@ def main():
                 X = acts[best_layer]
 
                 # In-sample geometry: the probe is fit in float64 on all late positions and its predictions on those same
-                # positions are kept (Figure 12). Sequence 0 also provides geom_<model>.npz, whose true beliefs define the
+                # positions are kept (Figure 11). Sequence 0 also provides geom_<model>.npz, whose true beliefs define the
                 # PCA frame of the geometry grids in the notebook.
                 W = fit_probe(X.double(), torch.tensor(y_true, device=device, dtype=torch.float64), use_bias=True)
                 y_pred = predict_probe(X.double(), W, use_bias=True).cpu().numpy()
@@ -209,8 +210,8 @@ def main():
                 ins_r.append(_r2_np(y_true, y_pred))
 
                 # Held-out geometry with exactly the pass-1 protocol: float32, the seeded 20 percent training split, and
-                # predictions on the held-out 80 percent (Figures 3 and 11). The shuffled and random controls use the same
-                # rngs as pass 1 (Figures 13 and 14).
+                # predictions on the held-out 80 percent (Figures 3 and 10). The shuffled and random controls use the same
+                # rngs as pass 1 (Figures 12 and 13).
                 idx_tr, idx_te = train_test_split(np.arange(n_late), train_size=args.train_frac, random_state=seed)
                 Xtr, Xte = X[idx_tr].float(), X[idx_te].float()
                 Wf = fit_probe(Xtr, torch.tensor(y_true[idx_tr], device=device, dtype=torch.float32), use_bias=True)

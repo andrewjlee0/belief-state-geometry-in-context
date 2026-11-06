@@ -1,8 +1,8 @@
 #!/bin/bash
 # Runner for Section 4: the KL divergence between the HMM's next-token probabilities and the LLM's, for every model.
 #
-# Paper section: Section 4 (Evaluating in-context prediction accuracy) with Figure 2, and Appendices G and H with
-# Figures 17 to 28.
+# Paper section: Section 4 (Evaluating in-context prediction accuracy) with Figure 2, Appendix J.1 with Figure 23, and
+# Appendices K.1.1 and K.1.2 with Figures 29 to 40.
 #
 # Claim: In-context prediction converges, and the converged KL of the LLMs sits well below that of the 0-HMM and
 # 1-HMM baselines.

@@ -1,9 +1,9 @@
 #!/bin/bash
-# Runner for Section 8: per-layer tuned lenses toward the HMM's next-token probabilities, the control targets, and
+# Runner for Appendix H: per-layer tuned lenses toward the HMM's next-token probabilities, the control targets, and
 # the model's own output, for every model.
 #
-# Paper section: Section 8 (Decoding predictions from intermediate layers) with Figure 8, and Appendix Q with
-# Figures 77 to 94.
+# Paper section: Appendix H (Tuned lens), referenced from Section 5.2, with Figures 15 to 21, and Appendices K.2.2 and
+# K.2.3 with Figures 47 to 58.
 #
 # Claim: A tuned lens trained toward the ground-truth NTP attains low KL across most layers, and its per-layer KL
 # covaries with the belief probe's R².

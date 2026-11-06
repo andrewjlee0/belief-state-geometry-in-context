@@ -1,11 +1,10 @@
 """Next-token probability (NTP) and log-NTP probes, and the model-free NTP-to-belief baselines.
 
-Paper section: Section 5.2, the paragraphs "Belief state decodability cannot be explained by next-token probability or
-log next-token probability representations" and "NTP and log-NTP are linearly decodable from residual stream
-activations", with Figure 5 (bottom), and Appendix L with Figures 47 to 52.
+Paper section: Section 5.2, the paragraphs "Belief state decodability cannot be explained by NTP or log-NTP
+representations" and "NTP and log-NTP are linearly decodable from residual stream activations", with Figure 5 (right
+panels), Figure 26 (bottom), and Appendix K.2.6 with Figures 71 to 76.
 
-Claim: "Belief state decodability cannot be explained by next-token probability or log next-token probability
-representations." In the paper's words, "If the R² from activations exceeds the R² from the ground truth NTP/log-NTP,
+Claim: "Belief state decodability cannot be explained by NTP or log-NTP representations." In the paper's words, "If the R² from activations exceeds the R² from the ground-truth NTP/log-NTP,
 then the activations carry belief state information that cannot be explained by these candidate objects alone."
 A second claim of the same section is that "NTP and log-NTP are linearly decodable from residual stream activations."
 
@@ -82,7 +81,7 @@ def main():
 
             # Model-free baselines. The late windows of all seeds are pooled, and a linear regression with bias from the
             # ground-truth NTP (and separately from log-NTP) to the belief state is fit and scored in-sample. These are
-            # the constant lines of Figure 5 (bottom). For Mess3 the emission matrix is invertible, so the NTP baseline
+            # the constant lines of Figure 5 (right panels). For Mess3 the emission matrix is invertible, so the NTP baseline
             # reaches R² = 1.
             all_b, all_ntp = [], []
             for seed in range(args.n_seeds):

@@ -1,7 +1,7 @@
 """Transition matrices of the HMM families, and their order-1 and order-0 approximations.
 
-Paper section: Section 2.1 (Hidden Markov models), Section 2.3 (Order-k approximation), and Appendix C.1 (Process
-definitions) with Figure 9.
+Paper section: Section 2.1 (Hidden Markov models), Section 2.3 (Markov order-k approximation), and Appendix D.1
+(Process definitions) with Figure 8.
 
 Claim: In the paper's words, the families are "edge-emitting hidden Markov models (HMMs) as simple models of natural
 text, chosen such that the hidden token-generating dynamics are richer than the next-token distribution (with one
@@ -45,7 +45,7 @@ def mess3_order_one(alpha, x):
 # Arch: four hidden states and three tokens. alpha is the probability of remaining in the current state, and the
 # remaining probability mass moves to the other states. Each state has its own next-token distribution, and the
 # emission matrix is rank deficient (one kernel direction), so the belief carries information that the NTP does
-# not (Section 6.1).
+# not (Appendix I).
 def arch_matrices(alpha):
     b = (1 - alpha) / 3
     return [

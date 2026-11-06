@@ -1,8 +1,8 @@
 """Per-layer tuned lenses toward the HMM's ground-truth next-token probabilities, toward control targets, and toward
 the model's own output, together with the untrained logit lens.
 
-Paper section: Section 8 (Decoding predictions from intermediate layers) with Figure 8, and Appendix Q with
-Figures 77 to 94.
+Paper section: Appendix H (Tuned lens), referenced from Section 5.2, with Figures 15 to 21, and Appendices K.2.2 and
+K.2.3 with Figures 47 to 58.
 
 Claim: "Residual stream activations carry HMM predictive structure" and "Early-exit predictive accuracy covaries with
 belief state decodability." In the paper's words, "A tuned lens trained toward the ground-truth NTP attains low KL
@@ -10,10 +10,10 @@ across most layers, falling below the KL of the LLM's own predictions, whereas t
 and random NTP perform substantially worse", and "The tuned lens is most accurate at layers where the belief state is
 most decodable."
 
-Experiment: In the paper's words, "For a fixed layer, an affine transformation is learned to align the residual stream
-activations such that the application of LayerNorm, the unembedding matrix and softmax, best approximates a target
-distribution." The target is the ground-truth NTP, with shuffled and random controls, and, for the canonical tuned
-lens of Appendix Q.1, the model's own output distribution. Following Section 5, the lenses are trained on a random
+Experiment: In the paper's words, "For a fixed layer l, an affine transformation is learned to align the residual stream
+activations h_l,t(x_1:N) such that the application of LayerNorm, the unembedding matrix, and softmax best approximates
+a target distribution q(x_1:t)." The target is the ground-truth NTP, with shuffled and random controls, and, for the canonical tuned
+lens of Appendix H.3, the model's own output distribution. Following Section 5, the lenses are trained on a random
 20 percent of the last 5,000-token window and tested on the held-out 80 percent, and every lens is scored by the KL
 divergence from its target and from the ground truth at each layer.
 
@@ -107,7 +107,7 @@ def _cross_donor_by_ntpkl(cfg, param, seqs, src_beliefs, M, ps):
             best_kl, best = mean_kl, p
     return best, best_kl
 
-# The lens readout of Section 8.1: the model's final norm, then the HMM-token rows of the unembedding matrix (and
+# The lens readout of Appendix H.1: the model's final norm, then the HMM-token rows of the unembedding matrix (and
 # Gemma's final logit softcap), so that the softmax over these logits is a distribution over the HMM tokens.
 def _readout(h, norm, Wc, cap, norm_dtype):
     """Concept logits = unembed_concept( final_norm(h) ). h:(B,d) fp32 -> (B,C) fp32.
@@ -209,13 +209,13 @@ def run_param(wrapper, tokenizer, cfg, param, layers, tok_ids, Wc, norm, cap,
     oracle = np.concatenate(oracle_pool, 0)
     N, C = oracle.shape
 
-    # The split of Section 8.1: a random 20 percent of the pooled positions trains every translator and the remaining
+    # The split of Appendix H.1: a random 20 percent of the pooled positions trains every translator and the remaining
     # 80 percent scores every lens. The held-out positions keep their sequence id for the per-sequence averages.
     tr, te = _split(N, args.train_frac, 42)
     seed_te = np.concatenate(seed_pool, 0)[te]                # seq id for each held-out position
 
     # The model's own output distribution over the HMM tokens: the readout of the last layer's activations. It is the
-    # target of the canonical lens (Appendix Q.1) and the reference of the kl_final column.
+    # target of the canonical lens (Appendix H.3) and the reference of the kl_final column.
     last = layers[-1]
     with torch.no_grad():
         h = acts_pool[last].to(device)
@@ -223,8 +223,8 @@ def run_param(wrapper, tokenizer, cfg, param, layers, tok_ids, Wc, norm, cap,
         del h
         torch.cuda.empty_cache()
 
-    # Target distribution of each trained lens (Section 8.1). tuned_hmm is the HMM's ground-truth NTP and tuned_concept
-    # is the model's own distribution (the canonical lens of Appendix Q.1). The controls mirror those of the belief
+    # Target distribution of each trained lens (Appendix H.1). tuned_hmm is the HMM's ground-truth NTP and tuned_concept
+    # is the model's own distribution (the canonical lens of Appendix H.3). The controls mirror those of the belief
     # probes: shuffle is the ground-truth NTP with the positions permuted (rng 77777), random is an i.i.d. symmetric
     # Dirichlet distribution over the HMM tokens at every position (rng 88888), order1 is the 1-HMM's NTP given the
     # previous token, and cross is the donor parametrization's NTP on the same tokens.

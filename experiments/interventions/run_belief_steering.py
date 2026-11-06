@@ -1,8 +1,8 @@
 """Steering the belief-state subspace and decoding, with frozen probes, the log-NTP, the belief's delta-component, and a
 random direction's component at every later layer.
 
-Paper section: Section 6 (Controlling representations via the belief state) with Figure 6, and Appendices M, N, and O
-with Figures 53 to 70.
+Paper section: Section 6 (Intervening on the belief state subspace), part (a), with Figures 6 and 27, Appendix I with
+Figure 22, and Appendices K.3.1, K.3.3, and K.3.4 with Figures 77 to 82 and 89 to 100.
 
 Claim: "Steering the belief state systematically changes log-NTP decodability" and "Belief interventions have
 privileged effects beyond the NTP subspace." In the paper's words, "when steering at layers beyond roughly the first
@@ -91,7 +91,7 @@ def _vals(src, belief_seq, M):
     ntp = b @ M
     return ntp if src == "ntp" else np.log(ntp + EPS)
 
-# The delta direction of Section 6.1: a unit vector in the left null space of the emission matrix M. Moving a belief
+# The delta direction of Appendix I.1: a unit vector in the left null space of the emission matrix M. Moving a belief
 # along it changes the belief but not the NTP. The kernel is one-dimensional for Arch, Wing, and Strata, and empty
 # for Mess3, whose emission matrix is invertible.
 def _kerM_dir(M, tol=1e-8):
@@ -402,7 +402,7 @@ def run_sequence(wrapper, tokenizer, cfg, T_matrices, beliefs_all, tokens_all, s
                                  "n_train": len(tr), "n_test": len(te)})
         # After steering: one steered pass per steering layer, scored with the frozen probes. The random_matched control
         # replaces the direction of the injected vector by a fixed random unit vector u_rand (one draw per parametrization
-        # and seed) while keeping the per-position norms of the delta steer (random direction steering, Section 6.1). Its
+        # and seed) while keeping the per-position norms of the delta steer (random direction steering, Appendix I.1). Its
         # readout is the projection of the activations onto u_rand, stored as fixed_dir rows.
         u_rand = None
         if args.donor == "random_matched":

@@ -3,7 +3,7 @@
 Paper section: Section 4.1 (the definition of in-context prediction accuracy).
 
 Claim: In the paper's words, prediction accuracy at position t is "the KL divergence between the HMM's ground-truth
-NTP, p(x_1:t) (extended to the LLM's full vocabulary size) and the LLM's NTP at position t."
+NTP, p(x_1:t) (extended to the LLM's full vocabulary size), and the LLM's output distribution at position t."
 
 Experiment: This module runs no experiment. run_kl.py uses it for the order-1 and order-0 baselines, whose
 distributions live on the HMM tokens. The model's full-vocabulary KL is computed in src/model_utils.py.
